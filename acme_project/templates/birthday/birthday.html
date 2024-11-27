@@ -1,5 +1,18 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block content %}
-
+  <form>
+    <table>{{ form }}</table>
+    <input type="submit" value="Submit" />
+  </form>
 {% endblock %}
+
+{% comment %} <form>
+  <ul>{{ form.as_ul }}</ul>
+  <input type="submit" value="Submit" />
+</form> {% endcomment %}
+
+{% comment %} <form>
+  {{ form.as_p }}
+  <input type="submit" value="Submit" />
+</form> {% endcomment %}
