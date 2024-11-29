@@ -15,17 +15,15 @@
     </div>
   </div>
   <!-- Присваиваем переменной data объект request.GET -->
-  {% with data=request.POST %}
+  {% with data=form.instance %}
     {% if form.is_valid %}
+      ID новой записи в БД: {{ data.id }}
+      <hr />
       <h2>Привет, {{ data.first_name }} {{ data.last_name }}</h2>
-      <!-- Если до дня рождения 0 дней... -->
       {% if birthday_countdown == 0 %}
-        <!-- ...выводим поздравление: -->
-        С днём рождения!
-        <!-- Если до дня рождения не ноль дней... -->
+        <p>С днём рождения!</p>
       {% else %}
-        <!-- ...сообщаем, сколько осталось ждать: -->
-        Осталось дней до дня рождения: {{ birthday_countdown }}!
+        <p>Осталось дней до дня рождения: {{ birthday_countdown }}!</p>
       {% endif %}
     {% endif %}
   {% endwith %}
