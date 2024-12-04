@@ -17,4 +17,13 @@ class Birthday(models.Model):
     )
     # Валидатор указывается в описании поля.
     birthday = models.DateField('Дата рождения', validators=(real_age,))
-    registration_date = models.DateTimeField('Дата регистрации', default=timezone.now) 
+    registration_date = models.DateTimeField('Дата регистрации', default=timezone.now)
+    image = models.ImageField('Фото', upload_to='birthdays_images', blank=True)
+
+    class Meta:
+        constraints = (
+            models.UniqueConstraint(
+                fields=('first_name', 'last_name', 'birthday'),
+                name='Unique person constraint',
+            ),
+        )
