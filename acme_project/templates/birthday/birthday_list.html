@@ -18,6 +18,7 @@
         <div>
           <a href="{% url 'birthday:edit' birthday.id %}">Изменить запись</a> | <a href="{% url 'birthday:delete' birthday.id %}">Удалить запись</a>
         </div>
+        <a href="{% url 'birthday:detail' birthday.id %}">Сколько до дня рождения?</a>
       </div>
       {% if not forloop.last %}
         <!-- Класс mt-3 устанавливает отступ сверху (margin-top) в 30 px -->
