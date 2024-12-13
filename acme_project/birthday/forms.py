@@ -1,11 +1,12 @@
 # birthday/forms.py
 from django import forms
 # Импортируем класс модели Birthday.
-from .models import Birthday
+# from .models import Birthday
 from .validators import real_age
 # Импортируем класс ошибки валидации.
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
+from .models import Birthday, Congratulation
 
 
 # Множество с именами участников Ливерпульской четвёрки.
@@ -73,3 +74,10 @@ class BirthdayForm(forms.ModelForm):
 #         # валидаторов этого поля (валидаторов может быть несколько).
 #         validators=(real_age,),
 #     ) 
+
+class CongratulationForm(forms.ModelForm):
+    
+    class Meta:
+        model = Congratulation
+        fields = ('text',)
+        

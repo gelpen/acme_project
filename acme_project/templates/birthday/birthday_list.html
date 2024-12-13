@@ -15,9 +15,11 @@
       <!-- Вторая "колонка" в строке, её ширина — 10/12 -->
       <div class="col-10">
         <div>{{ birthday.id }}. {{ birthday.first_name }} {{ birthday.last_name }} — {{ birthday.birthday }}</div>
-        <div>
-          <a href="{% url 'birthday:edit' birthday.id %}">Изменить запись</a> | <a href="{% url 'birthday:delete' birthday.id %}">Удалить запись</a>
-        </div>
+        {% if birthday.author == user %}
+          <div>
+            <a href="{% url 'birthday:edit' birthday.id %}">Изменить запись</a> | <a href="{% url 'birthday:delete' birthday.id %}">Удалить запись</a>
+          </div>
+        {% endif %}
         <a href="{% url 'birthday:detail' birthday.id %}">Сколько до дня рождения?</a>
       </div>
       {% if not forloop.last %}
@@ -40,8 +42,8 @@
         {{ birthday.id }}. {{ birthday.first_name }} {{ birthday.last_name }} - {{ birthday.birthday }}
         <h6>Дата регистрации - {{ birthday.registration_date }}</h6>
       </div>
-      <!--    Ссылку тоже обернём в div; адрес ссылки
-        указываем через namespace:name    -->
+      <!--     Ссылку тоже обернём в div; адрес ссылки
+        указываем через namespace:name     -->
       <div>
         <a href="{% url 'birthday:edit' birthday.id %}">Изменить запись</a>
         <a href="{% url 'birthday:delete' birthday.id %}">Удалить запись</a>
