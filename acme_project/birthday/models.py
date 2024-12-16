@@ -17,6 +17,14 @@ User = get_user_model()
 #     birthday = models.DateField('Дата рождения')
 #     registration_date = models.DateTimeField('Дата регистрации', default=timezone.now)
 
+
+class Tag(models.Model):
+    tag = models.CharField('Тег', max_length=20)
+    # Переопределяем метод:
+    def __str__(self):
+        return self.tag
+
+
 class Birthday(models.Model):
     first_name = models.CharField('Имя', max_length=20)
     last_name = models.CharField(
@@ -24,10 +32,14 @@ class Birthday(models.Model):
     )
     # Валидатор указывается в описании поля.
     birthday = models.DateField('Дата рождения', validators=(real_age,))
-    registration_date = models.DateTimeField('Дата регистрации', default=timezone.now)
+    registration_date = models.DateTimeField(
+        'Дата регистрации', default=timezone.now)
     image = models.ImageField('Фото', upload_to='birthdays_images', blank=True)
     author = models.ForeignKey(
-        User, verbose_name='Автор записи', on_delete=models.CASCADE, null=True) 
+        User, verbose_name='Автор записи', on_delete=models.CASCADE, null=True)
+
+    tags = models.ManyToManyField(Tag, verbose_name='Теги', blank=True,
+                                  help_text='Удерживайте Ctrl для выбора нескольких вариантов')
 
     class Meta:
         constraints = (
@@ -40,11 +52,12 @@ class Birthday(models.Model):
     def get_absolute_url(self):
         # С помощью функции reverse() возвращаем URL объекта.
         return reverse('birthday:detail', kwargs={'pk': self.pk})
-    
+
+
 class Congratulation(models.Model):
     text = models.TextField('Текст поздравления')
     birthday = models.ForeignKey(
-        Birthday, 
+        Birthday,
         on_delete=models.CASCADE,
         related_name='congratulations',
     )
@@ -52,4 +65,4 @@ class Congratulation(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
-        ordering = ('created_at',) 
+        ordering = ('created_at',)
