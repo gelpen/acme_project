@@ -1,26 +1,33 @@
 import unittest
 
 
-def bartender(order):
-    if isinstance(order, int) and order > 0:
-        return order
-    return 'Извините, я не могу вас обслужить!'
+class Calculator:
+    """Производит арифметические действия."""
+
+    def divider(self, num1, num2):
+        """Возвращает результат деления num1 / num2."""
+        if num2 == 0:
+            raise ZeroDivisionError('Не могу делить на ноль')
+        return num1 / num2
 
 
-class TestBar(unittest.TestCase):
+class TestCalc(unittest.TestCase):
+    """Тестируем Calculator."""
 
-    def test_bartender(self):
-        values_results = (
-            (5, 5),
-            (0, 0),
-            (0.33, 0.33),
-            (-1.999999, -1.999999),
-            (фываолдж, фываолдж),)
+    @classmethod
+    def setUpClass(cls):
+        cls.calculator = Calculator()
 
-    for value in values_results:
-        # subTest в качестве контекстного менеджера.
-        with self.subTest():
-            result = bartender(value)
-            # Тестовое утверждение, которое будет вызвано несколько раз
-            # с разными значениями переменных.
-            self.assertEqual(result, result)
+    def test_divider(self):
+        """Проверка правильной работы деления."""
+        act = self.calculator.divider(10, 2)
+        self.assertEqual(act, 5.0, 'Функция divider некорректно работает с валидными аргументами')
+
+    def test_divider_zero_division(self):
+        """Проверка выброса исключения при делении на 0."""
+        with self.assertRaises(ZeroDivisionError, msg='Функция divider должна выбрасывать ZeroDivisionError при делении на 0'):
+            self.calculator.divider(10, 0)
+
+
+if __name__ == '__main__':
+    unittest.main()
